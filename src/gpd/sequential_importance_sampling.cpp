@@ -10,6 +10,7 @@ const int MAX_OF_GAUSSIANS = 1;
 
 SequentialImportanceSampling::SequentialImportanceSampling(
     const std::string &config_filename) {
+  //std::srand(0);
   // Read parameters from configuration file.
   util::ConfigFile config_file(config_filename);
   config_file.ExtractKeys();
@@ -49,6 +50,7 @@ SequentialImportanceSampling::SequentialImportanceSampling(
 
   int min_inliers = config_file.getValueOfKey<int>("min_inliers", 1);
   clustering_ = std::make_unique<Clustering>(min_inliers);
+  //std::srand(0);
 }
 
 std::vector<std::unique_ptr<candidate::Hand>>
@@ -189,11 +191,12 @@ SequentialImportanceSampling::detectGrasps(util::Cloud &cloud) {
 void SequentialImportanceSampling::drawSamplesFromSumOfGaussians(
     const std::vector<std::unique_ptr<candidate::HandSet>> &hand_sets,
     double sigma, int num_gauss_samples, Eigen::Matrix3Xd &samples_out) {
-  static std::random_device rd{};
-  static std::mt19937 gen{rd()};
+  //static std::random_device rd{};
+  //static std::mt19937 gen{rd()};
+  static std::mt19937 gen;
   static std::normal_distribution<double> distr{0.0, sigma};
   for (std::size_t j = 0; j < num_gauss_samples; j++) {
-    int idx = rand() % hand_sets.size();
+    int idx = std::rand() % hand_sets.size();
     Eigen::Vector3d rand_vec;
     rand_vec << distr(gen), distr(gen), distr(gen);
     samples_out.col(j) = hand_sets[idx]->getSample() + rand_vec;
@@ -205,13 +208,13 @@ void SequentialImportanceSampling::drawSamplesFromMaxOfGaussians(
     double sigma, int num_gauss_samples, Eigen::Matrix3Xd &samples_out,
     double term) {
   int j = 0;
-  static std::random_device rd{};
-  static std::mt19937 gen{rd()};
+  //static std::random_device rd{};
+  //static std::mt19937 gen{rd()};
+  static std::mt19937 gen;
   static std::normal_distribution<double> distr{0.0, sigma};
-
   // Draw samples using rejection sampling.
   while (j < num_gauss_samples) {
-    int idx = rand() % hand_sets.size();
+    int idx = std::rand() % hand_sets.size();
     Eigen::Vector3d rand_vec;
     rand_vec << distr(gen), distr(gen), distr(gen);
     Eigen::Vector3d x = hand_sets[idx]->getSample() + rand_vec;

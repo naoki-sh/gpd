@@ -109,6 +109,7 @@ void ImageGenerator::removePlane(const util::Cloud &cloud_cam,
   seg.setMethodType(pcl::SAC_RANSAC);
   seg.setDistanceThreshold(0.01);
   seg.segment(*inliers, *coefficients);
+  std::cout << "RANSAC" << std::endl;
   if (inliers->indices.size() > 0) {
     pcl::ExtractIndices<pcl::PointXYZRGBA> extract;
     extract.setInputCloud(cloud_cam.getCloudProcessed());

@@ -8,6 +8,7 @@ const std::string DataGenerator::IMAGES_DS_NAME = "images";
 const std::string DataGenerator::LABELS_DS_NAME = "labels";
 
 DataGenerator::DataGenerator(const std::string &config_filename) {
+  //std::srand(0);
   detector_ = std::make_unique<GraspDetector>(config_filename);
 
   // Read parameters from configuration file.
@@ -68,6 +69,7 @@ DataGenerator::DataGenerator(const std::string &config_filename) {
   Eigen::VectorXi cam_sources = Eigen::VectorXi::LinSpaced((360 / 3), 0, 360);
   all_cam_sources_.resize(cam_sources.size());
   Eigen::VectorXi::Map(&all_cam_sources_[0], cam_sources.rows()) = cam_sources;
+  //std::srand(0);
 }
 
 void DataGenerator::generateData() {

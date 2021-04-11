@@ -188,8 +188,9 @@ Eigen::Matrix3Xd HandSet::shadowVoxelsToPoints(
     const std::vector<Eigen::Vector3i> &voxels, double voxel_grid_size) const {
   // Convert voxels back to points.
   double t0_voxels = omp_get_wtime();
-  std::random_device rd{};
-  std::mt19937 gen{rd()};
+  //std::random_device rd{};
+  //std::mt19937 gen{rd()};
+  std::mt19937 gen;
   std::normal_distribution<double> distr{0.0, 1.0};
   Eigen::Matrix3Xd shadow(3, voxels.size());
 

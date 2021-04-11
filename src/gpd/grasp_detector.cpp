@@ -258,10 +258,18 @@ std::vector<std::unique_ptr<candidate::Hand>> GraspDetector::detectGrasps(
   }
 
   // 3. Create grasp descriptors (images).
+  //ofstream ofs("test.csv");
   double t0_images = omp_get_wtime();
   std::vector<std::unique_ptr<candidate::Hand>> hands;
   std::vector<std::unique_ptr<cv::Mat>> images;
   image_generator_->createImages(cloud, hand_set_list_filtered, images, hands);
+  //
+  //for (const auto& e : images)
+  //{
+	//std::cout << "" << std::endl;
+  //	ofs << cv::format(*e, cv::Formatter::FMT_CSV) << endl;
+  //}
+  //
   double t_images = omp_get_wtime() - t0_images;
 
   // 4. Classify the grasp candidates.
@@ -306,6 +314,11 @@ std::vector<std::unique_ptr<candidate::Hand>> GraspDetector::detectGrasps(
   printf("======== Selected grasps ========\n");
   for (int i = 0; i < clusters.size(); i++) {
     std::cout << "Grasp " << i << ": " << clusters[i]->getScore() << "\n";
+    std::cout << "----------------" << std::endl;
+    std::cout << "" << clusters[i]->getPosition() << "\n";
+    std::cout << "----------------" << std::endl;
+    std::cout << "" << clusters[i]->getOrientation() << "\n";
+    std::cout << "============================================" << std::endl;
   }
   printf("Selected the %d best grasps.\n", (int)clusters.size());
   double t_total = omp_get_wtime() - t0_total;

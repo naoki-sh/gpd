@@ -6,7 +6,7 @@ namespace net {
 EigenClassifier::EigenClassifier(const std::string &model_file,
                                  const std::string &weights_file,
                                  Classifier::Device device, int batch_size)
-    : num_threads_(4) {
+    : num_threads_(1) {
   double start = omp_get_wtime();
 
   const int image_size = 60;

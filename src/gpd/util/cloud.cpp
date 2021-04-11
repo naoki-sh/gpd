@@ -364,6 +364,8 @@ void Cloud::subsample(int num_samples) {
 void Cloud::subsampleUniformly(int num_samples) {
   sample_indices_.resize(num_samples);
   pcl::RandomSample<pcl::PointXYZRGBA> random_sample;
+  random_sample.setSeed(0);
+  //std::srand(0);
   random_sample.setInputCloud(cloud_processed_);
   random_sample.setSample(num_samples);
   random_sample.filter(sample_indices_);
